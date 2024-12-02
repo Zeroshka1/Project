@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import LoginForm from "./LoginForm/LoginForm.jsx";
-import SignUpForm from "./SignUpForm/SignUpForm.jsx";
+import LoginForm from "./loginForm/LoginForm.jsx";
+import SignUpForm from "./signUpForm/SignUpForm.jsx";
 import styles from './authForm.module.css';
 
 const AuthForm = ({ onClose }) => {
