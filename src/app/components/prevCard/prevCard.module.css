@@ -1,0 +1,89 @@
+.PrevCardWrapper .companyInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.PrevCardWrapper {
+    position: relative;
+    z-index: 2;
+    border-radius: 20px;
+    padding: 1.5em 1.25em;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.299);
+}
+
+.logoAndName {
+    display: flex;
+    gap: .5em;
+    align-items: center;
+}
+
+.imgPrev {
+    width: 20px;
+    height: 20px;
+}
+
+.ratingWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ratingWrapper span {
+    font-weight: 600;
+    font-size: .75em;
+    color: #636363;
+}
+
+.ratingCompany span {
+    color: #000000;
+    font-size: 1.5em;
+}
+
+.sevicesWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+}
+
+.sevicesWrapper span {
+    font-weight: 600;
+    font-size: .75em;
+    color: #636363;
+}
+
+.sevicesCompany p {
+    color: #000000;
+    font-size: 1em;
+}
+
+.priceWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+}
+.priceWrapper span {
+    font-weight: 600;
+    font-size: .75em;
+    color: #636363;
+}
+.priceCompany p{
+    color: #000000;
+    font-size: 1em;
+}
+
+.placeholderAvatar {
+    position: relative;
+    z-index: 2;
+    background-color: #E1E1E1;
+    border-radius: 10px;
+    padding: 1em;
+}
+
+.ratingCompany {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

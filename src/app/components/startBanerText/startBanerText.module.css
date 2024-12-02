@@ -1,0 +1,74 @@
+.container {
+    display: inline-block;
+}
+
+.typedOut {
+    font-weight: 500;
+    overflow: hidden;
+    border-right: .15em solid #0D19FF;
+    white-space: nowrap;
+    font-size: 4rem;
+    animation:
+        typing 1.5s steps(20, end) forwards,
+        blinking .7s infinite;
+}
+
+.typedOut span {
+    color: #0D19FF;
+}
+
+.wrapper p {
+    font-size: 2em;
+    font-weight: 500;
+}
+
+.wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 2em;
+    margin-top: 6em;
+}
+
+@keyframes blinking {
+    from {
+        border-color: transparent
+    }
+
+    to {
+        border-color: #0D19FF;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@media (max-width: 1200px) {
+    .typedOut {
+        font-size: 3em;
+    }
+
+    .wrapper p {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 805px) {
+    .typedOut {
+        font-size: 1.3em;
+    }
+
+    .wrapper p {
+        font-size: 1em;
+    }
+}

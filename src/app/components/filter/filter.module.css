@@ -1,0 +1,205 @@
+.filterContainer {
+    margin-top: 6em;
+    position: relative;
+    z-index: 2;
+    padding: 5em 0em;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.299);
+}
+
+.filterWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.3em;
+    gap: 1.5em;
+}
+
+.filterInputs {
+    width: 100%;
+    gap: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filterBtns {
+    display: flex;
+    gap: .3em;
+}
+
+/* Выпадающий список */
+.dropdown {
+    position: relative;
+    width: 100%;
+    right: 15px;
+
+}
+
+.dropdownToggle {
+    width: 100%;
+    font-size: 1.2em;
+    color: #636363;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8em;
+    border: 0.5px solid #636363;
+    border-radius: 8px;
+    cursor: pointer;
+    background: white;
+}
+
+.dropdownArrow {
+    margin-left: 1em;
+    font-size: 0.8em;
+    color: #000000;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 0em 2em 0em 0em;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.dropdownMenu li {
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.dropdownMenu label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdownMenu input[type="checkbox"] {
+    margin-right: 0.5em;
+    width: 24px;
+}
+
+/* Стили для чекбокса */
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkboxInput {
+    display: none;
+}
+
+.checkboxCustom {
+    width: 20px;
+    height: 20px;
+    border: 0.5px solid black;
+    background-color: white;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkboxInput:checked+.checkboxCustom {
+    background-color: #0D19FF;
+    border: none;
+}
+
+.checkboxInput:checked+.checkboxCustom::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%) rotate(45deg);
+    width: 5px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+}
+
+.nameService {
+    font-size: 14px;
+    color: #000;
+}
+
+.filterModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Контейнер формы */
+.formContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 6em 7em;
+    min-height: 200px;
+    text-align: center;
+}
+
+.formContainer div {
+    display: flex;
+    gap: 1em;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #000000;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 32px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.closeButton:hover {
+    color: #0D19FF;
+}
+
+@media (max-width: 1040px) {
+    .container {
+        max-width: 80%;
+    }
+
+    .filterWrapper {
+        flex-direction: column;
+        padding: 0 2em;
+    }
+
+    .filterBtns {
+        justify-content: center;
+    }
+
+    .filterInputs {
+        flex-direction: column;
+    }
+}
