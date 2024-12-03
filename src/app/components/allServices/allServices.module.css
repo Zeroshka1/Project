@@ -1,4 +1,4 @@
-.allServicesContainer{
+.allServicesContainer {
     margin-top: 2em;
     margin-bottom: 2em;
     display: flex;
@@ -6,8 +6,16 @@
     gap: 2em;
 }
 
-.listServicesWrapper{
+.allServicesWrapper {
+    overflow-y: scroll;
+    height: 380px;
+}
+
+.listServicesWrapper {
+    padding: 1em;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 2em;
 }

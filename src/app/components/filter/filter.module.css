@@ -8,6 +8,8 @@
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.299);
 }
 
+
+
 .filterWrapper {
     display: flex;
     justify-content: space-between;
@@ -25,21 +27,20 @@
 
 .filterBtns {
     display: flex;
-    gap: .3em;
+    gap: 1em;
 }
 
 /* Выпадающий список */
 .dropdown {
     position: relative;
-    width: 100%;
+    width: 110%;
     right: 15px;
-
 }
 
 .dropdownToggle {
     width: 100%;
+    max-width: 408.5px;
     font-size: 1.2em;
-    color: #636363;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,9 +49,32 @@
     border-radius: 8px;
     cursor: pointer;
     background: white;
+    box-sizing: border-box;
 }
 
+.dropdownToggle span {
+    display: inline-block;
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: gray;
+}
+.dropdownToggle .dropdownArrow{
+    color: black;
+}
+.text {
+    color: gray;
+}
+
+.text.selected {
+    color: black;
+}
+
+
 .dropdownArrow {
+    position: absolute;
+    right: 10px;
     margin-left: 1em;
     font-size: 0.8em;
     color: #000000;
@@ -60,13 +84,13 @@
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%;
-    padding: 0em 2em 0em 0em;
+    width: 99%;
+    padding: 0em 0em 0em 0em;
     background: white;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-height: 200px;
+    max-height: 154px;
     overflow-y: auto;
     z-index: 10;
 }
@@ -185,9 +209,74 @@
     color: #0D19FF;
 }
 
+/* modal */
+.filterModal .formContainer .filterInputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.filterModal .filterInputs input {
+    padding: .8em 0em;
+    text-indent: .8em;
+}
+
+.filterModal .formContainer .filterInputs .dropdown {
+    position: relative;
+    width: 308.5px;
+    left: 0px;
+}
+
+.filterModal .formContainer .filterInputs .dropdownToggle {
+    width: 408.5px;
+    padding: .8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.filterModal .formContainer .filterInputs .dropdownMenu {
+    padding: 0em;
+    height: 130px;
+}
+
+.filterModal .formContainer .filterBtns {
+    margin-top: 1em;
+    width: 308px;
+}
+
+.filterModal .formContainer .filterBtns .dropdownMenu {
+    height: 90px;
+}
+
+.filterModal .formContainer .filterBtns button {
+    position: relative;
+    right: 10px;
+}
+
+.filterModal .formContainer .filterBtns .dropdown {
+    left: 0px;
+}
+
 @media (max-width: 1040px) {
     .container {
         max-width: 80%;
+    }
+
+    .filterWrapper .dropdown {
+        max-width: 800px;
+        width: 100%;
+        right: 0px;
+    }
+
+    .dropdownMenu {
+        width: 100%;
+    }
+
+    .filterWrapper .dropdownToggle {
+        max-width: 800px;
     }
 
     .filterWrapper {
@@ -201,5 +290,19 @@
 
     .filterInputs {
         flex-direction: column;
+    }
+
+    .filterModal .formContainer {
+        padding: 5em 2em;
+    }
+
+    .filterModal .filterInputs input {
+        padding: .8em 0em;
+        text-indent: .8em;
+    }
+
+    .filterModal .formContainer .filterBtns button {
+        position: relative;
+        right: 0px;
     }
 }

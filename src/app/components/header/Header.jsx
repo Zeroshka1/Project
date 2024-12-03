@@ -18,6 +18,20 @@ const Header = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isAuthModalOpen) {
+        document.body.classList.add('hiddenScroll');
+        document.documentElement.classList.add('hiddenScroll');
+    } else {
+        document.body.classList.remove('hiddenScroll');
+        document.documentElement.classList.remove('hiddenScroll');
+    }
+    return () => {
+        document.body.classList.remove('hiddenScroll');
+        document.documentElement.classList.remove('hiddenScroll');
+    };
+}, [isAuthModalOpen]);
+
   const menuItemsData = [
     { title: 'Услуги', url: '/' },
     { title: 'Новости', url: '/Новости' },
