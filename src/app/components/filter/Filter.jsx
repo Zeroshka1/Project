@@ -2,15 +2,22 @@
 import React, { useState, useEffect } from "react";
 import styles from "./filter.module.css";
 import FilterForm from "./filterForm/FilterForm";
-import Dropdown from "./filterForm/DropDown"; 
+import Dropdown from "./filterForm/DropDown";
 
 function Filter() {
     const [selectedServices, setSelectedServices] = useState([]);
     const [isFilterFormOpen, setIsFilterFormOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [price, setPrice] = useState('');
+
+    const handlePriceChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        setPrice(value);
+    };
+
+    const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
     const services = ["Веб-разработка", "Мобильная-разработка", "SEO", "И т.д"];
-
 
     useEffect(() => {
         if (isFilterFormOpen) {
@@ -35,11 +42,9 @@ function Filter() {
         );
     };
 
-
     const toggleFilterForm = () => {
         setIsFilterFormOpen(!isFilterFormOpen);
     };
-
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prevState) => !prevState);
@@ -50,7 +55,12 @@ function Filter() {
             <div className={`${styles.filterContainer} container pc`}>
                 <div className={styles.filterWrapper}>
                     <div className={styles.filterInputs}>
-                        <input type="text" placeholder="Цена" />
+                        <input
+                            type="text"
+                            placeholder="Цена"
+                            value={formattedPrice}
+                            onChange={handlePriceChange}
+                        />
 
                         <Dropdown
                             title="Услуги"
