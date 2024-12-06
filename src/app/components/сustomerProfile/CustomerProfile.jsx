@@ -14,7 +14,7 @@ const CustomerProfile = () => {
                 const token = localStorage.getItem("access_token");
                 if (!token) throw new Error("Токен отсутствует");
 
-                const response = await fetch("http://80.68.156.221:8001/auth/user/me", {
+                const response = await fetch("https://7c1e-80-68-156-221.ngrok-free.app/auth/user/me", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

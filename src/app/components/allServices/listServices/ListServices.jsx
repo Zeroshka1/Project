@@ -40,7 +40,7 @@ function ListServices({ filters }) {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const response = await fetch('http://80.68.156.221:8001/company/all');
+                const response = await fetch('https://7c1e-80-68-156-221.ngrok-free.app/company/all');
                 if (!response.ok) throw new Error('Не удалось загрузить данные компаний');
                 const data = await response.json();
                 setCompanies(data);
@@ -55,7 +55,7 @@ function ListServices({ filters }) {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch('http://80.68.156.221:8001/company/services/all');
+                const response = await fetch('https://7c1e-80-68-156-221.ngrok-free.app/company/services/all');
                 if (!response.ok) throw new Error('Не удалось загрузить данные сервисов');
                 const data = await response.json();
                 setServices(data);

@@ -43,7 +43,7 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
             return;
         }
     
-        const endpoint = authType === "customer" ? "http://80.68.156.221:8001/auth/register/customer" : "http://80.68.156.221:8001/auth/register/company";
+        const endpoint = authType === "customer" ? "https://7c1e-80-68-156-221.ngrok-free.app/auth/register/customer" : "https://7c1e-80-68-156-221.ngrok-free.app/auth/register/company";
         
         try {
             console.log("Sending request to:", endpoint);
@@ -66,7 +66,7 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
             localStorage.setItem("access_token", token);
             localStorage.removeItem("user");
     
-            const userResponse = await fetch("http://80.68.156.221:8001/auth/user/me", {
+            const userResponse = await fetch("https://7c1e-80-68-156-221.ngrok-free.app/auth/user/me", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

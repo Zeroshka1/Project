@@ -77,8 +77,8 @@ const CompanyProfile = () => {
 
             const company_id = companyInfo.id; // Используем company_id из данных компании
 
-            const createServiceUrl = "http://80.68.156.221:8001/company/service/create";
-            const updateServiceUrl = `http://80.68.156.221:8001/company/services?company_id=${company_id}`;
+            const createServiceUrl = "https://7c1e-80-68-156-221.ngrok-free.app/company/service/create";
+            const updateServiceUrl = `https://7c1e-80-68-156-221.ngrok-free.app/company/services?company_id=${company_id}`;
 
             for (const service of selectedServices) {
                 const serviceData = {
