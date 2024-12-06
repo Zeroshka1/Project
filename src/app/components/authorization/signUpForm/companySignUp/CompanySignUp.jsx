@@ -3,6 +3,15 @@ import Image from "next/image";
 import styles from '../../authForm.module.css';
 
 const CompanySignUp = ({ formData, handleInputChange, handleImageUpload, imagePreview, triggerFileUpload }) => {
+
+    const handlePhoneChange = (e) => {
+        const { name, value } = e.target;
+
+        const formattedValue = value.replace(/[^0-9+]/g, '');
+
+        handleInputChange({ target: { name, value: formattedValue } });
+    };
+
     return (
         <>
             <div className={styles.uploadImgWrapper}>
@@ -18,24 +27,24 @@ const CompanySignUp = ({ formData, handleInputChange, handleImageUpload, imagePr
 
             <input
                 type="text"
-                name="companyName"
+                name="login"
                 placeholder="Название компании"
-                value={formData.companyName}
+                value={formData.login || ""}
                 onChange={handleInputChange}
             />
             <input
-                type="number"
-                name="rating"
-                placeholder="Рейтинг (1-5)"
-                value={formData.rating}
+                type="password"
+                name="password"
+                placeholder="Пароль"
+                value={formData.password || ""}
                 onChange={handleInputChange}
             />
             <input
                 type="tel"
                 name="phone"
                 placeholder="Номер телефона"
-                value={formData.phone}
-                onChange={handleInputChange}
+                value={formData.phone || ""}
+                onChange={handlePhoneChange}
             />
             <input
                 type="url"
@@ -49,20 +58,6 @@ const CompanySignUp = ({ formData, handleInputChange, handleImageUpload, imagePr
                 name="email"
                 placeholder="Email"
                 value={formData.email}
-                onChange={handleInputChange}
-            />
-            <input
-                type="text"
-                name="username"
-                placeholder="Логин"
-                value={formData.username}
-                onChange={handleInputChange}
-            />
-            <input
-                type="password"
-                name="password"
-                placeholder="Пароль"
-                value={formData.password}
                 onChange={handleInputChange}
             />
         </>

@@ -10,8 +10,8 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
     const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState(
         authType === "customer"
-            ? { photo: "", username: "", email: "", password: "" }
-            : { photo: "", companyName: "", rating: 1, phone: "", website: "", email: "", username: "", password: "" }
+            ? { login: "", email: "", password: "", role: "customer" }
+            : { login: "", password: "", phone: "", website: "", email: "", role: "company" }
     );
     const router = useRouter();
 
@@ -34,14 +34,59 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
     const triggerFileUpload = () => {
         document.getElementById('imageUploadInput').click();
     };
-
-    const handleRegister = () => {
-        localStorage.setItem("user", JSON.stringify({ ...formData, authType }));
-        alert("Вы успешно зарегистрировались!");
-
-        const redirectPath = authType === "customer" ? "/customer-profile" : "/company-profile";
-        router.push(redirectPath);
+    const handleRegister = async () => {
+        // Проверка на пустые поля
+        const { login, password, email, phone, website } = formData;
+    
+        if (!login || !password || !email || (authType === "company" && (!phone || !website))) {
+            console.error("Пожалуйста, заполните все обязательные поля.");
+            return;
+        }
+    
+        const endpoint = authType === "customer" ? "http://80.68.156.221:8001/auth/register/customer" : "http://80.68.156.221:8001/auth/register/company";
+        
+        try {
+            console.log("Sending request to:", endpoint);
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Server error response:", errorData);
+                throw new Error(errorData.message || "Ошибка регистрации");
+            }
+    
+            const data = await response.json();
+            console.log("Registration successful:", data);
+            const token = data.access_token;
+    
+            localStorage.setItem("access_token", token);
+            localStorage.removeItem("user");
+    
+            const userResponse = await fetch("http://80.68.156.221:8001/auth/user/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            if (!userResponse.ok) throw new Error("Ошибка получения данных пользователя");
+    
+            const newUserData = await userResponse.json();
+            localStorage.setItem("user", JSON.stringify(newUserData)); 
+    
+            const redirectPath = authType === "customer" ? "/customer-profile" : "/company-profile";
+            router.push(redirectPath);
+    
+        } catch (err) {
+            console.error("Registration Error:", err.message);
+        }
     };
+    
+    
+    
 
     return (
         <div className={styles.registrationForm}>

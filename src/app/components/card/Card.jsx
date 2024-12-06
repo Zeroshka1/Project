@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './card.module.css';
 import Image from 'next/image';
 
@@ -7,9 +7,21 @@ function Card({ data, onClose }) {
 
   const handleClose = () => {
     onClose();
-    setIsVisible(false)
+    setIsVisible(false);
   };
-
+  useEffect(() => {
+    if (isVisible) {
+      document.body.classList.add('hiddenScroll');
+      document.documentElement.classList.add('hiddenScroll');
+    } else {
+      document.body.classList.remove('hiddenScroll');
+      document.documentElement.classList.remove('hiddenScroll');
+    }
+    return () => {
+      document.body.classList.remove('hiddenScroll');
+      document.documentElement.classList.remove('hiddenScroll');
+    };
+  }, [isVisible]);
 
   return (
     <>
@@ -34,20 +46,8 @@ function Card({ data, onClose }) {
                     />
                   </div>
                 )}
+                {/* Замените company_id на companyName */}
                 <p>{data.companyName}</p>
-              </div>
-
-              <div className={styles.ratingWrapper}>
-                <div className={styles.ratingCompany}>
-                  <span>{data.rating}</span>
-                  <Image
-                    src="https://img.icons8.com/?size=100&id=PuXqa9IZtu5P&format=png&color=000000"
-                    alt="star"
-                    width={32}
-                    height={32}
-                  />
-                </div>
-
               </div>
             </div>
 
@@ -55,14 +55,14 @@ function Card({ data, onClose }) {
               <div className={styles.servicesWrapper}>
                 <span>Услуги</span>
                 <div className={styles.sevicesCompany}>
-                  <p>{data.sevicesCompany}</p>
+                  <p>{data.service_name}</p>
                 </div>
               </div>
 
               <div className={styles.priceWrapper}>
                 <span>Цена</span>
                 <div className={styles.priceCompany}>
-                  <p>{data.price}</p>
+                  <p>{data.price_min}-{data.price_max}</p>
                 </div>
               </div>
             </div>
@@ -72,7 +72,6 @@ function Card({ data, onClose }) {
         </div>
       </div>
     </>
-
   );
 }
 

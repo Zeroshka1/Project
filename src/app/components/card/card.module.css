@@ -72,6 +72,7 @@
     width: 100%;
     display: flex;
     gap: .5em;
+    justify-content: center;
     align-items: center;
 }
 

@@ -1,53 +1,56 @@
-"use client";
+'use client'
 import React, { useState, useEffect } from "react";
 import styles from "./filter.module.css";
-import FilterForm from "./filterForm/FilterForm";
 import Dropdown from "./filterForm/DropDown";
 
-function Filter() {
+function Filter({ onFilterChange, openMenu }) {
     const [selectedServices, setSelectedServices] = useState([]);
-    const [isFilterFormOpen, setIsFilterFormOpen] = useState(false);
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [price, setPrice] = useState('');
+    const [tempFilters, setTempFilters] = useState({
+        price: null,
+        selectedServices: []
+    });
 
+    const services = ["A", "B", "C", "D"];
+
+    // Обработка изменения цены
     const handlePriceChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, '');
+        const value = e.target.value.replace(/[^0-9]/g, ''); // Убираем все нечисловые символы
         setPrice(value);
+        setTempFilters((prev) => ({
+            ...prev,
+            price: value ? parseInt(value) : null // Преобразуем в число
+        }));
     };
 
     const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
-    const services = ["Веб-разработка", "Мобильная-разработка", "SEO", "И т.д"];
-
+    // Обновление временных фильтров при изменении выбранных услуг
     useEffect(() => {
-        if (isFilterFormOpen) {
-            document.body.classList.add('hiddenScroll');
-            document.documentElement.classList.add('hiddenScroll');
-        } else {
-            document.body.classList.remove('hiddenScroll');
-            document.documentElement.classList.remove('hiddenScroll');
-        }
+        setTempFilters((prev) => ({
+            ...prev,
+            selectedServices
+        }));
+    }, [selectedServices]);
 
-        return () => {
-            document.body.classList.remove('hiddenScroll');
-            document.documentElement.classList.remove('hiddenScroll');
-        };
-    }, [isFilterFormOpen]);
-
+    // Обработка выбора услуги
     const handleServiceChange = (service) => {
         setSelectedServices((prev) =>
             prev.includes(service)
-                ? prev.filter((item) => item !== service)
-                : [...prev, service]
+                ? prev.filter((item) => item !== service) // Убираем услугу из выбранных
+                : [...prev, service] // Добавляем услугу в выбранные
         );
     };
 
-    const toggleFilterForm = () => {
-        setIsFilterFormOpen(!isFilterFormOpen);
-    };
-
+    // Открытие/закрытие выпадающего списка
     const toggleDropdown = () => {
         setIsDropdownOpen((prevState) => !prevState);
+    };
+
+    const handleApplyFilters = () => {
+        onFilterChange(tempFilters);
     };
 
     return (
@@ -61,7 +64,6 @@ function Filter() {
                             value={formattedPrice}
                             onChange={handlePriceChange}
                         />
-
                         <Dropdown
                             title="Услуги"
                             options={services}
@@ -73,13 +75,13 @@ function Filter() {
                     </div>
 
                     <div className={styles.filterBtns}>
-                        <button onClick={toggleFilterForm}>Фильтр</button>
-                        <button className="blueBtn">Показать</button>
+                        <button onClick={openMenu}>Фильтр</button>
+                        <button className="blueBtn" onClick={handleApplyFilters}>
+                            Показать
+                        </button>
                     </div>
                 </div>
             </div>
-
-            {isFilterFormOpen && <FilterForm onClose={toggleFilterForm} />}
         </>
     );
 }

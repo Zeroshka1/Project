@@ -10,7 +10,7 @@ export default function Home() {
       <Header />
       <main>
         <StartBanerText />
-        <Filter/>
+        {/* <Filter/> */}
         <AllServices/>
       </main>
       <Footer />

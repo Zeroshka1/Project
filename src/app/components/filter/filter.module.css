@@ -1,14 +1,12 @@
 .filterContainer {
-    margin-top: 6em;
+    margin-top: 2em;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     padding: 5em 0em;
     background: white;
     border-radius: 20px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.299);
 }
-
-
 
 .filterWrapper {
     display: flex;
@@ -29,7 +27,6 @@
     display: flex;
     gap: 1em;
 }
-
 /* Выпадающий список */
 .dropdown {
     position: relative;
@@ -141,7 +138,7 @@
 
 .checkboxInput:checked+.checkboxCustom {
     background-color: #0D19FF;
-    border: none;
+    border: 0.5px solid #0D19FF; 
 }
 
 .checkboxInput:checked+.checkboxCustom::after {
@@ -265,6 +262,8 @@
 
 .filterModal .formContainer .filterBtns {
     margin-top: 1em;
+    display: flex;
+    justify-content: center;
     width: 308px;
 }
 
@@ -272,16 +271,16 @@
     height: 90px;
 }
 
-.filterModal .formContainer .filterBtns button {
-    position: relative;
-    right: 10px;
-}
 
 .filterModal .formContainer .filterBtns .dropdown {
     left: 0px;
 }
 
 @media (max-width: 1040px) {
+    .filterContainer{
+        width: 100%;
+        padding: 5em 2em;
+    }
     .container {
         max-width: 80%;
     }
@@ -302,7 +301,7 @@
 
     .filterWrapper {
         flex-direction: column;
-        padding: 0 2em;
+        padding: 0em;
     }
 
     .filterBtns {

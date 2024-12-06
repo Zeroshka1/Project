@@ -18,23 +18,23 @@ const CustomerSignUp = ({ formData, handleInputChange, handleImageUpload, imageP
 
             <input
                 type="text"
-                name="username"
+                name="login"
                 placeholder="Логин"
-                value={formData.username}
+                value={formData.login || ""}
                 onChange={handleInputChange}
             />
             <input
                 type="email"
                 name="email"
                 placeholder="Email"
-                value={formData.email}
+                value={formData.email || ""}
                 onChange={handleInputChange}
             />
             <input
                 type="password"
                 name="password"
                 placeholder="Пароль"
-                value={formData.password}
+                value={formData.password || ""}
                 onChange={handleInputChange}
             />
         </>

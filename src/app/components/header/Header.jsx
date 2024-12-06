@@ -12,13 +12,6 @@ const Header = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser));
-    }
-  }, []);
-
-  useEffect(() => {
     if (isAuthModalOpen) {
         document.body.classList.add('hiddenScroll');
         document.documentElement.classList.add('hiddenScroll');
@@ -30,12 +23,19 @@ const Header = () => {
         document.body.classList.remove('hiddenScroll');
         document.documentElement.classList.remove('hiddenScroll');
     };
-}, [isAuthModalOpen]);
+}, [ isAuthModalOpen]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const menuItemsData = [
     { title: 'Услуги', url: '/' },
-    { title: 'Новости', url: '/Новости' },
-    { title: 'Контакты', url: '/Контакты' },
+    { title: 'Новости', url: '/1' },
+    { title: 'Контакты', url: '/2' },
   ];
 
   const pathname = usePathname();
@@ -55,7 +55,7 @@ const Header = () => {
   const handleAccountClickExit = () => {
     localStorage.removeItem('user');
     setUserData(null);  
-    window.location.href = "/";  
+    window.location.href = "/";
   };
 
   return (
@@ -91,7 +91,16 @@ const Header = () => {
         toggleAuthModal={toggleAuthModal} 
       />
 
-      {isAuthModalOpen && <AuthForm onClose={toggleAuthModal} />}
+      {isAuthModalOpen && (
+        <AuthForm 
+          onClose={toggleAuthModal} 
+          setUserData={(user) => {
+            setUserData(user);
+            localStorage.setItem("user", JSON.stringify(user));
+            setIsAuthModalOpen(false); // Закрыть форму после входа
+          }}
+        />
+      )}
     </>
   );
 };

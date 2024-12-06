@@ -1,14 +1,33 @@
 import React from 'react';
-import styles from '../header.module.css'
+import styles from '../header.module.css';
 
 const AccountButtons = ({ userData, handleAccountClick, handleAccountClickExit, toggleAuthModal }) => {
-    return userData ? (
+    return (
         <div className={styles.btnNav}>
-            <button onClick={handleAccountClick}>Аккаунт</button>
-            <button onClick={handleAccountClickExit}>Выход</button>
+            {userData ? (
+                <>
+                    <button 
+                        onClick={handleAccountClick} 
+                        className={styles.accountButton}
+                    >
+                        Профиль
+                    </button>
+                    <button 
+                        onClick={handleAccountClickExit} 
+                        className={`${styles.accountButton} ${styles.logoutButton}`}
+                    >
+                        Выход
+                    </button>
+                </>
+            ) : (
+                <button 
+                    onClick={toggleAuthModal} 
+                    className={`${styles.accountButton} ${styles.loginButton}`}
+                >
+                    Вход
+                </button>
+            )}
         </div>
-    ) : (
-        <button onClick={toggleAuthModal}>Вход</button>
     );
 };
 

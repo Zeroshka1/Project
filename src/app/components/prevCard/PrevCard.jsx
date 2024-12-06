@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 function PrevCard({ type, data, showRating = false, onClick }) {
     return (
-        <div className={styles.PrevCardWrapper} onClick={onClick}> {/* При клике передаем данные */}
+        <div className={styles.PrevCardWrapper} onClick={onClick}>
             {type === "company" && (
                 <div className={styles.companyInfo}>
                     <div className={styles.logoNameRating}>
@@ -25,7 +25,7 @@ function PrevCard({ type, data, showRating = false, onClick }) {
                             <p>{data.companyName}</p>
                         </div>
 
-                        <div className={styles.ratingWrapper}>
+                        {/* <div className={styles.ratingWrapper}>
                             <span>Рейтинг</span>
                             {showRating && (
                                 <div className={styles.ratingCompany}>
@@ -38,21 +38,21 @@ function PrevCard({ type, data, showRating = false, onClick }) {
                                     />
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className={styles.servicesPrice}>
                         <div className={styles.servicesWrapper}>
                             <span>Услуги</span>
                             <div className={styles.sevicesCompany}>
-                                <p>{data.sevicesCompany}</p>
+                                <p>{data.service_name}</p>
                             </div>
                         </div>
 
                         <div className={styles.priceWrapper}>
                             <span>Цена</span>
                             <div className={styles.priceCompany}>
-                                <p>{data.price}</p>
+                                <p>{data.price_min}-{data.price_max}</p>
                             </div>
                         </div>
                     </div>

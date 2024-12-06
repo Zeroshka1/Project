@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../header.module.css';
 import AccountButtons from '../accoutButtons/AccountButtons';
+import AuthForm from '../../authorization/AuthForm';
 
-function MobileMenu({ userData, setUserData, toggleAuthModal }) {
+function MobileMenu({ userData, setUserData }) {
     const [open, setOpen] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -35,14 +36,19 @@ function MobileMenu({ userData, setUserData, toggleAuthModal }) {
 
     const handleAccountClickExit = () => {
         localStorage.removeItem('user');
-        setUserData(null);  
-        window.location.href = "/";  
+        setUserData(null);
+        setOpen(false);
+        window.location.href = "/";
+    };
+
+    const toggleLocalAuthModal = () => {
+        setIsAuthModalOpen((prev) => !prev);
     };
 
     const menuItemsData = [
         { title: 'Услуги', url: '/' },
-        { title: 'Новости', url: '/Новости' },
-        { title: 'Контакты', url: '/Контакты' },
+        { title: 'Новости', url: '/n' },
+        { title: 'Контакты', url: '/k' },
     ];
 
     return (
@@ -53,7 +59,10 @@ function MobileMenu({ userData, setUserData, toggleAuthModal }) {
                 <div className={`${styles.logoNav}`}>
                     <div className={`${styles.logoNavWrapper} container`}>
                         <h1 className={styles.headerLogo}>L</h1>
-                        <div className={`${styles.burgerBtn} ${open ? styles.open : ''}`} onClick={toggleMenu}>
+                        <div 
+                            className={`${styles.burgerBtn} ${open ? styles.open : ''}`} 
+                            onClick={toggleMenu}
+                        >
                             <span></span>
                             <span></span>
                             <span></span>
@@ -72,16 +81,25 @@ function MobileMenu({ userData, setUserData, toggleAuthModal }) {
                         </ul>
                     </nav>
 
-                    <AccountButtons 
-                      userData={userData} 
-                      handleAccountClick={handleAccountClick} 
-                      handleAccountClickExit={handleAccountClickExit} 
-                      toggleAuthModal={toggleAuthModal} 
+                    <AccountButtons
+                        userData={userData}
+                        handleAccountClick={handleAccountClick}
+                        handleAccountClickExit={handleAccountClickExit}
+                        toggleAuthModal={toggleLocalAuthModal}
                     />
                 </div>
             </header>
 
-            {isAuthModalOpen && <AuthForm onClose={toggleAuthModal} />}
+            {isAuthModalOpen && (
+                <AuthForm
+                    onClose={toggleLocalAuthModal}
+                    setUserData={(user) => {
+                        setUserData(user);
+                        localStorage.setItem("user", JSON.stringify(user));
+                        setIsAuthModalOpen(false);
+                    }}
+                />
+            )}
         </>
     );
 }

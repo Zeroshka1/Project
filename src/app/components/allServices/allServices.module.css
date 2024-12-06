@@ -19,3 +19,10 @@
     flex-direction: column;
     gap: 2em;
 }
+
+.noServicesMessage {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 20px;
+}

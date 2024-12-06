@@ -1,18 +1,22 @@
-.companyWrapper{
+.companyWrapper {
     margin-top: 6em;
-    margin-bottom: 6em;
+    margin-bottom: 12em;
     display: flex;
     flex-direction: column;
     gap: 3em;
-    padding: 2em 0 10em 0;
+    padding: 2em 0 2em 0;
     height: 35em;
     position: relative;
     z-index: 2;
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.299);
     border-radius: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
 }
-.companyInfo{
+
+.companyInfo {
     gap: 1em;
     width: 100%;
     display: flex;
@@ -20,27 +24,31 @@
     justify-content: center;
     flex-direction: column;
 }
-.orderWrapper{
+
+.orderWrapper {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-.orderWrapper h1{
+
+.orderWrapper h1 {
     font-weight: 700;
 }
 
-.servicesWrapper{
+.servicesWrapper {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-.servicesWrapper h1{
+
+.servicesWrapper h1 {
     font-weight: 700;
 }
+
 .placeholderAvatar {
     position: relative;
     z-index: 2;
@@ -49,30 +57,194 @@
     padding: 2.75em;
 }
 
-.nameCompany,.emailCompany{
+.nameCompany,
+.emailCompany {
     font-size: 1.5em;
 }
-.ratingCompany{
+
+.ratingCompany {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.ratingCompany span{
+
+.ratingCompany span {
     font-size: 1.5em;
     font-weight: 700;
 }
 
-.containerBtns{
+.containerBtns {
     width: 100%;
     display: flex;
     justify-content: end;
 }
-.wrapperBtns{
+
+.wrapperBtns {
     display: flex;
     gap: 1em;
     padding-right: 1em;
 }
-.imgPrev{
+
+.imgPrev {
     width: 50px;
     height: 50px;
+}
+
+.loaderWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.servicesWrapper {
+    width: 100%;
+    gap: 1em;
+    display: flex;
+    align-items: start;
+}
+
+.servicesWrapper h1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/*  */
+.servicesAndPrice {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1em;
+}
+
+.dropdownMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.dropdownMenu li {
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+
+.dropdownMenu label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdownMenu input[type="checkbox"] {
+    margin-right: 0.5em;
+    width: 24px;
+}
+
+/* Стили для чекбокса */
+.checkboxLabel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkboxInput {
+    display: none;
+}
+
+.checkboxCustom {
+    width: 20px;
+    height: 20px;
+    border: 0.5px solid black;
+    background-color: white;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkboxInput:checked+.checkboxCustom {
+    background-color: #0D19FF;
+    border: 0.5px solid #0D19FF;
+}
+
+.checkboxInput:checked+.checkboxCustom::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%) rotate(45deg);
+    width: 5px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+}
+
+/* 
+ */
+.priceInputs {
+    width: 100%;
+    padding-right: 2em;
+}
+
+.priceInputWrapper {
+    gap: 1em;
+    width: 100%;
+    justify-content: end;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.priceInput {
+    width: 5em;
+    text-align: center;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.disabledInput {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+@media (max-width: 1040px) {
+    .checkboxLabel {
+        padding-right: 1.5em;
+    }
+
+    .dropdownMenu li {
+        display: flex;
+        gap: 1em;
+        flex-direction: column;
+    }
+
+    .priceInputWrapper {
+        width: 100%;
+
+    }
+
+    .priceInput {
+        display: flex;
+        justify-content: start;
+        width: 100%;
+        text-align: center;
+        padding: 10px 2px;
+        margin-top: 5px;
+    }
 }
