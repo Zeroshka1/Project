@@ -21,7 +21,7 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
         }
     
         try {
-            const response = await fetch("https://7c1e-80-68-156-221.ngrok-free.app/auth/login", {
+            const response = await fetch("http://80.68.156.221:8001/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -35,7 +35,7 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
             const data = await response.json();
             localStorage.setItem("access_token", data.access_token);
     
-            const userResponse = await fetch("https://7c1e-80-68-156-221.ngrok-free.app/auth/user/me", {
+            const userResponse = await fetch("http://80.68.156.221:8001/auth/user/me", {
                 headers: { Authorization: `Bearer ${data.access_token}` },
             });
     

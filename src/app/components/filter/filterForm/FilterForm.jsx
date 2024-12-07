@@ -3,12 +3,12 @@ import styles from '../filter.module.css';
 import DropDown from './DropDown';
 
 function FilterForm({ onApplyFilters, onClose }) {
-    const [price, setPrice] = useState('');  // Цена
+    const [price, setPrice] = useState('');
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedCompanies, setSelectedCompanies] = useState([]);
     const [selectedRatings, setSelectedRatings] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
-    const [isVisible, setIsVisible] = useState(true);
+    const [isExiting, setIsExiting] = useState(false);
 
     const filterModalRef = useRef(null);
     const services = ["A", "B", "C", "D"];
@@ -16,7 +16,7 @@ function FilterForm({ onApplyFilters, onClose }) {
     const ratings = [1, 2, 3, 4, 5];
 
     useEffect(() => {
-        if (isVisible) {
+        if (!isExiting) {
             document.body.classList.add('hiddenScroll');
             document.documentElement.classList.add('hiddenScroll');
         } else {
@@ -27,106 +27,79 @@ function FilterForm({ onApplyFilters, onClose }) {
             document.body.classList.remove('hiddenScroll');
             document.documentElement.classList.remove('hiddenScroll');
         };
-    }, [isVisible]);
+    }, [isExiting]);
 
-    // Закрытие модального окна при клике вне
     const handleClose = () => {
-        onClose();
-        setIsVisible(false);
+        setIsExiting(true);
+        setTimeout(() => {
+            onClose(); 
+        }, 300); 
     };
 
-    // Toggle для выпадающего меню
-    const toggleDropdown = (dropdownType) => {
-        setOpenDropdown(openDropdown === dropdownType ? null : dropdownType);
-    };
-
-    // Обработка изменения чекбоксов
-    const handleCheckboxChange = (item, type) => {
-        const updateSelection = (selected, setSelected) => {
-            setSelected(selected.includes(item)
-                ? selected.filter(i => i !== item)
-                : [...selected, item]);
-        };
-
-        switch (type) {
-            case "service":
-                updateSelection(selectedServices, setSelectedServices);
-                break;
-            case "company":
-                updateSelection(selectedCompanies, setSelectedCompanies);
-                break;
-            case "rating":
-                updateSelection(selectedRatings, setSelectedRatings);
-                break;
-            default:
-                break;
-        }
-    };
-
-    // Обработка изменения цены
     const handlePriceChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, '');  // Убираем все нечисловые символы
-        setPrice(value);  // Обновляем цену
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        setPrice(value);
     };
     const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
-    // Применение фильтров
     const handleApply = () => {
-        const filters = {
-            price,  // Цена
-            selectedServices,
-            selectedCompanies,
-            selectedRatings
-        };
-
-        onApplyFilters(filters);  // Применяем фильтры
-        onClose();  // Закрываем модалку после применения фильтров
+        const filters = { price, selectedServices, selectedCompanies, selectedRatings };
+        onApplyFilters(filters);
+        handleClose();
     };
-
-    // Закрытие модального окна при клике вне
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (filterModalRef.current && !filterModalRef.current.contains(event.target)) {
-                onClose();
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [onClose]);
 
     return (
         <>
-            <div className={`${styles.blurBackground} ${!isVisible ? styles.hidden : ''}`} onClick={handleClose}></div>
-            <div ref={filterModalRef} className={styles.filterModal}>
+            <div
+                className={`${styles.blurBackground} ${isExiting ? styles.exiting : ''}`}
+                onClick={handleClose}
+            ></div>
+            <div
+                ref={filterModalRef}
+                className={`${styles.filterModal} ${isExiting ? styles.exiting : ''}`}
+            >
                 <div className={styles.formContainer}>
-                    <button className={styles.closeButton} onClick={onClose}>×</button>
+                    <button className={styles.closeButton} onClick={handleClose}>
+                        ×
+                    </button>
                     <div className={styles.filterInputs}>
-                        {/* Поле для изменения цены */}
                         <input
                             type="text"
                             placeholder="Цена"
-                            value={formattedPrice}  // Привязка значения к состоянию
-                            onChange={handlePriceChange}  // Обработчик изменения
+                            value={formattedPrice}
+                            onChange={handlePriceChange}
                         />
                         <DropDown
                             title="Услуги"
                             options={services}
                             selectedOptions={selectedServices}
-                            onChange={(service) => handleCheckboxChange(service, "service")}
+                            onChange={(service) => {
+                                setSelectedServices((prev) =>
+                                    prev.includes(service)
+                                        ? prev.filter((item) => item !== service)
+                                        : [...prev, service]
+                                );
+                            }}
                             isOpen={openDropdown === 'services'}
-                            toggleDropdown={() => toggleDropdown('services')}
+                            toggleDropdown={() =>
+                                setOpenDropdown(openDropdown === 'services' ? null : 'services')
+                            }
                         />
                         <DropDown
                             title="Компании"
                             options={companies}
                             selectedOptions={selectedCompanies}
-                            onChange={(company) => handleCheckboxChange(company, "company")}
+                            onChange={(company) => {
+                                setSelectedCompanies((prev) =>
+                                    prev.includes(company)
+                                        ? prev.filter((item) => item !== company)
+                                        : [...prev, company]
+                                );
+                            }}
                             isOpen={openDropdown === 'companies'}
-                            toggleDropdown={() => toggleDropdown('companies')}
+                            toggleDropdown={() =>
+                                setOpenDropdown(openDropdown === 'companies' ? null : 'companies')
+                            }
                         />
                     </div>
                     <div className={styles.filterBtns}>
@@ -134,11 +107,21 @@ function FilterForm({ onApplyFilters, onClose }) {
                             title="Оценки"
                             options={ratings}
                             selectedOptions={selectedRatings}
-                            onChange={(rating) => handleCheckboxChange(rating, "rating")}
+                            onChange={(rating) => {
+                                setSelectedRatings((prev) =>
+                                    prev.includes(rating)
+                                        ? prev.filter((item) => item !== rating)
+                                        : [...prev, rating]
+                                );
+                            }}
                             isOpen={openDropdown === 'ratings'}
-                            toggleDropdown={() => toggleDropdown('ratings')}
+                            toggleDropdown={() =>
+                                setOpenDropdown(openDropdown === 'ratings' ? null : 'ratings')
+                            }
                         />
-                        <button className="blueBtn" onClick={handleApply}>Показать</button>
+                        <button className="blueBtn" onClick={handleApply}>
+                            Показать
+                        </button>
                     </div>
                 </div>
             </div>

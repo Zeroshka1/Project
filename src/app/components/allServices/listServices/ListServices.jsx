@@ -19,8 +19,9 @@ function ListServices({ filters }) {
     // Фильтрация сервисов на основе переданных фильтров, если активные фильтры есть
     const filteredServices = hasActiveFilters ? services.filter((service) => {
         // Фильтрация по цене
-        const priceRange = service.price ? service.price.split('-').map((val) => parseInt(val.replace(/[^\d]/g, ''))) : [0, Infinity];
-        const [minPrice, maxPrice] = priceRange;
+        const priceRange = service.price.split('-').map((val) => parseInt(val.replace(/[^\d]/g, ''))); // Преобразуем строку с диапазоном в массив чисел
+        const minPrice = priceRange[0];
+        const maxPrice = priceRange[1];
 
         const filterPrice = price ? parseInt(price) : null;
         const isPriceValid = filterPrice ? (minPrice <= filterPrice && maxPrice >= filterPrice) : true;
@@ -37,13 +38,14 @@ function ListServices({ filters }) {
         return isPriceValid && isServiceValid && isCompanyValid && isRatingValid;
     }) : services;
 
+    // Загружаем данные о компаниях с API
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const response = await fetch('https://7c1e-80-68-156-221.ngrok-free.app/company/all');
+                const response = await fetch('http://80.68.156.221:8001/company/all'); // API для получения списка компаний
                 if (!response.ok) throw new Error('Не удалось загрузить данные компаний');
                 const data = await response.json();
-                setCompanies(data);
+                setCompanies(data); // Устанавливаем данные о компаниях
             } catch (error) {
                 console.error('Ошибка при загрузке данных компаний:', error);
             }
@@ -52,13 +54,14 @@ function ListServices({ filters }) {
         fetchCompanies();
     }, []);
 
+    // Загружаем данные о сервисах с API
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch('https://7c1e-80-68-156-221.ngrok-free.app/company/services/all');
+                const response = await fetch('http://80.68.156.221:8001/company/services/all');
                 if (!response.ok) throw new Error('Не удалось загрузить данные сервисов');
                 const data = await response.json();
-                setServices(data);
+                setServices(data); // Устанавливаем данные в состояние
             } catch (error) {
                 console.error('Ошибка при загрузке услуг:', error);
             }
@@ -67,15 +70,16 @@ function ListServices({ filters }) {
         fetchServices();
     }, []);
 
+    // Функция для получения имени компании по ее ID
     const getCompanyNameById = (companyId) => {
         const company = companies.find((comp) => comp.id === companyId);
-        return company ? company.login : 'Неизвестная компания';
+        return company ? company.login : 'Неизвестная компания'; // Если компания не найдена, выводим 'Неизвестная компания'
     };
 
     const handleCardOpen = (data) => {
         setCardData({
             ...data,
-            companyName: getCompanyNameById(data.company_id),
+            companyName: getCompanyNameById(data.company_id), // Добавляем имя компании
         });
         setIsCardOpen(true);
     };
@@ -87,6 +91,7 @@ function ListServices({ filters }) {
 
     return (
         <div className={styles.listServicesWrapper}>
+            {/* Если нет подходящих услуг, показываем сообщение */}
             {filteredServices.length === 0 ? (
                 <p className={styles.noServicesMessage}>Услуги не найдены</p>
             ) : (
@@ -96,7 +101,7 @@ function ListServices({ filters }) {
                         type="company"
                         data={{
                             ...service,
-                            companyName: getCompanyNameById(service.company_id),
+                            companyName: getCompanyNameById(service.company_id), // Добавляем имя компании
                         }}
                         showRating={true}
                         onClick={() => handleCardOpen(service)}

@@ -47,7 +47,7 @@ function MobileMenu({ userData, setUserData }) {
 
     const menuItemsData = [
         { title: 'Услуги', url: '/' },
-        { title: 'Новости', url: '/n' },
+        { title: 'Новости', url: '/news' },
         { title: 'Контакты', url: '/k' },
     ];
 

@@ -6,9 +6,12 @@ function Card({ data, onClose }) {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
-    onClose();
     setIsVisible(false);
-  };
+    setTimeout(() => {
+        onClose(); 
+    }, 300); 
+};
+
   useEffect(() => {
     if (isVisible) {
       document.body.classList.add('hiddenScroll');
@@ -26,7 +29,7 @@ function Card({ data, onClose }) {
   return (
     <>
       <div className={`${styles.blurBackground} ${!isVisible ? styles.hidden : ''}`} onClick={handleClose}></div>
-      <div className={styles.cardModal}>
+      <div className={`${styles.cardModal} ${isVisible ? styles.exiting : ''}`}>
         <div className={styles.formContainer}>
           <button className={styles.closeButton} onClick={handleClose}>×</button>
 
@@ -49,6 +52,21 @@ function Card({ data, onClose }) {
                 {/* Замените company_id на companyName */}
                 <p>{data.companyName}</p>
               </div>
+
+              {/* <div className={styles.ratingWrapper}>
+                            <span>Рейтинг</span>
+                            {showRating && (
+                                <div className={styles.ratingCompany}>
+                                    <span>{data.rating}</span>
+                                    <Image
+                                        src="https://img.icons8.com/?size=100&id=PuXqa9IZtu5P&format=png&color=000000"
+                                        alt="star"
+                                        width={32}
+                                        height={32}
+                                    />
+                                </div>
+                            )}
+                        </div> */}
             </div>
 
             <div className={styles.servicesPrice}>

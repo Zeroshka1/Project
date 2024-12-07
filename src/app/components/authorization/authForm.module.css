@@ -1,4 +1,3 @@
-/* общий стиль для модального окна */
 .authModal {
     position: fixed;
     top: 50%;
@@ -27,24 +26,6 @@
     padding: 2em 6em;
     min-height: 200px;
     text-align: center;
-}
-
-.blurBackground {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 998;
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 0.3s ease;
-}
-.blurBackground.hidden {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .formContainer div {
@@ -124,6 +105,49 @@
     padding: 2.75em;
 }
 
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.authModal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.authModal.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+.blurBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 998;
+    opacity: 1;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.blurBackground.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
 
 @media (max-width: 1024px) {
     .formContainer {

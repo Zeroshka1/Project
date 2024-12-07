@@ -15,19 +15,17 @@ function Filter({ onFilterChange, openMenu }) {
 
     const services = ["A", "B", "C", "D"];
 
-    // Обработка изменения цены
     const handlePriceChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, ''); // Убираем все нечисловые символы
+        const value = e.target.value.replace(/[^0-9]/g, '');
         setPrice(value);
         setTempFilters((prev) => ({
             ...prev,
-            price: value ? parseInt(value) : null // Преобразуем в число
+            price: value ? parseInt(value) : null 
         }));
     };
 
     const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
-    // Обновление временных фильтров при изменении выбранных услуг
     useEffect(() => {
         setTempFilters((prev) => ({
             ...prev,
@@ -35,16 +33,14 @@ function Filter({ onFilterChange, openMenu }) {
         }));
     }, [selectedServices]);
 
-    // Обработка выбора услуги
     const handleServiceChange = (service) => {
         setSelectedServices((prev) =>
             prev.includes(service)
-                ? prev.filter((item) => item !== service) // Убираем услугу из выбранных
-                : [...prev, service] // Добавляем услугу в выбранные
+                ? prev.filter((item) => item !== service)
+                : [...prev, service]
         );
     };
 
-    // Открытие/закрытие выпадающего списка
     const toggleDropdown = () => {
         setIsDropdownOpen((prevState) => !prevState);
     };

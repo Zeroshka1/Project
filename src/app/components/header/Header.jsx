@@ -34,7 +34,7 @@ const Header = () => {
 
   const menuItemsData = [
     { title: 'Услуги', url: '/' },
-    { title: 'Новости', url: '/1' },
+    { title: 'Новости', url: '/news' },
     { title: 'Контакты', url: '/2' },
   ];
 

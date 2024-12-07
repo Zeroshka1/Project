@@ -8,7 +8,7 @@ function Services({ setSelectedServices }) {
 
     const fetchServices = async () => {
         try {
-            const response = await fetch('https://7c1e-80-68-156-221.ngrok-free.app/services/all');
+            const response = await fetch('http://80.68.156.221:8001/services/all');
             const data = await response.json();
             setServices(data);
 

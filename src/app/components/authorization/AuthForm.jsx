@@ -7,17 +7,24 @@ import styles from './authForm.module.css';
 const AuthForm = ({ onClose, setUserData }) => {
     const [authType, setAuthType] = useState("");
     const [isLogin, setIsLogin] = useState(true);
+    const [isExiting, setIsExiting] = useState(false);
 
     const handleClose = () => {
-        setAuthType("");
-        setIsLogin(true);
-        onClose();
+        setIsExiting(true);
+        setTimeout(() => {
+            setAuthType("");
+            setIsLogin(true);
+            onClose(); 
+        }, 300); 
     };
 
     return (
         <>
-            <div className={styles.blurBackground} onClick={handleClose}></div>
-            <div className={styles.authModal}>
+            <div
+                className={`${styles.blurBackground} ${isExiting ? styles.exiting : ''}`}
+                onClick={handleClose}
+            ></div>
+            <div className={`${styles.authModal} ${isExiting ? styles.exiting : ''}`}>
                 <div className={styles.formContainer}>
                     <button className={styles.closeButton} onClick={handleClose}>×</button>
                     {!authType ? (
@@ -43,8 +50,8 @@ const AuthForm = ({ onClose, setUserData }) => {
                         <LoginForm
                             authType={authType}
                             onSwitchToRegister={() => setIsLogin(false)}
-                            setUserData={setUserData} 
-                            onClose={handleClose} 
+                            setUserData={setUserData}
+                            onClose={handleClose}
                         />
                     ) : (
                         <SignUpForm

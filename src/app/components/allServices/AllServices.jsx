@@ -17,21 +17,26 @@ function AllServices() {
             return prevFilters;
         });
     };
-    
+
 
     const toggleFilterForm = () => {
         setIsFilterFormOpen(!isFilterFormOpen);
     };
 
 
-
     return (
         <div className={`${styles.allServicesContainer} container`}>
             <h1>Все услуги</h1>
 
-            <Filter onFilterChange={handleFilterChange} openMenu={toggleFilterForm}/>
+            <Filter onFilterChange={handleFilterChange} openMenu={toggleFilterForm} />
 
-            {isFilterFormOpen && <FilterForm onApplyFilters={handleFilterChange} onClose={toggleFilterForm} />}
+            {isFilterFormOpen && (
+                <FilterForm
+                    onApplyFilters={handleFilterChange}
+                    onClose={toggleFilterForm}
+                />
+            )}
+
             <div className={styles.allServicesWrapper}>
                 <ListServices filters={filters} />
             </div>

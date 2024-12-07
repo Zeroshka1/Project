@@ -4,7 +4,6 @@ import styles from '../filter.module.css';
 const Dropdown = ({ title, options, selectedOptions, onChange, isOpen, toggleDropdown }) => {
   const dropdownRef = useRef(null);
 
-  // обработка клика вне меню
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,25 +30,23 @@ const Dropdown = ({ title, options, selectedOptions, onChange, isOpen, toggleDro
         </span>
         <span className={styles.dropdownArrow}>▼</span>
       </div>
-      {isOpen && (
-        <ul className={styles.dropdownMenu}>
-          {options.map((option) => (
-            <li key={option}>
-              <label className={styles.checkboxLabel}>
-                <input
-                  type="checkbox"
-                  value={option}
-                  checked={selectedOptions.includes(option)}
-                  onChange={() => onChange(option)} // onChange передает обновленное значение в родительский компонент
-                  className={styles.checkboxInput}
-                />
-                <span className={styles.checkboxCustom}></span>
-                <span className={styles.nameService}>{option}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className={`${styles.dropdownMenu} ${isOpen ? styles.open : ''}`}>
+        {options.map((option) => (
+          <li key={option}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                value={option}
+                checked={selectedOptions.includes(option)}
+                onChange={() => onChange(option)}
+                className={styles.checkboxInput}
+              />
+              <span className={styles.checkboxCustom}></span>
+              <span className={styles.nameService}>{option}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

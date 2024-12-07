@@ -89,9 +89,17 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-height: 154px;
-    overflow-y: auto;
+    height: 155px;
+    overflow-x: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
     z-index: 10;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.dropdownMenu.open {
+    transform: scaleY(1);
+    opacity: 1;
 }
 
 .dropdownMenu li {
@@ -171,24 +179,6 @@
     z-index: 1000;
 }
 
-.blurBackground {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 998;
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 0.3s ease;
-}
-
-.blurBackground.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
 
 /* Контейнер формы */
 .formContainer {
@@ -257,7 +247,7 @@
 
 .filterModal .formContainer .filterInputs .dropdownMenu {
     padding: 0em;
-    height: 130px;
+    height: 115px;
 }
 
 .filterModal .formContainer .filterBtns {
@@ -275,6 +265,52 @@
 .filterModal .formContainer .filterBtns .dropdown {
     left: 0px;
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.filterModal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.filterModal.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+.blurBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 998;
+    opacity: 1;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.blurBackground.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+
+
 
 @media (max-width: 1040px) {
     .filterContainer{

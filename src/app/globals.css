@@ -56,7 +56,11 @@ a:hover {
     overflow-y: hidden
 }
 
+body, html{
+    scroll-behavior: smooth;
+}
 body {
+    overflow-y: Smooth;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
