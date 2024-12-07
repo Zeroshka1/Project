@@ -20,7 +20,6 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
         }
     
         try {
-            console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -35,7 +34,7 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
             const data = await response.json();
             localStorage.setItem("access_token", data.access_token);
     
-            const userResponse = await fetch("http://80.68.156.221:8001/auth/user/me", {
+            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
                 headers: { Authorization: `Bearer ${data.access_token}` },
             });
     

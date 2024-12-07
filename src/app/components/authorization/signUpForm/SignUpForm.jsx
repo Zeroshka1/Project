@@ -35,7 +35,6 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
         document.getElementById('imageUploadInput').click();
     };
     const handleRegister = async () => {
-        // Проверка на пустые поля
         const { login, password, email, phone, website } = formData;
     
         if (!login || !password || !email || (authType === "company" && (!phone || !website))) {
