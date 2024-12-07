@@ -17,6 +17,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=RHLuYrY4GjUv&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
 
@@ -26,6 +27,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=CYghN6YMk6Za&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
 
@@ -35,6 +37,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=w2mBMjvoILwt&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
           </nav>
@@ -57,6 +60,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=RHLuYrY4GjUv&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
 
@@ -66,6 +70,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=CYghN6YMk6Za&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
 
@@ -75,6 +80,7 @@ const Footer = () => {
                 height={34}
                 src='https://img.icons8.com/?size=100&id=w2mBMjvoILwt&format=png&color=0D19FF'
                 alt='s'
+                unoptimized
               />
             </a>
           </nav>
