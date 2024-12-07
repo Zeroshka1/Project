@@ -14,11 +14,6 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
     };
 
     const handleLogin = async () => {
-        if (!loginData.login || !loginData.password) {
-            setError("Пожалуйста, заполните все поля.");
-            return;
-        }
-    
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
                 method: "POST",
@@ -28,32 +23,39 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
                     password: loginData.password,
                 }),
             });
-    
+
             if (!response.ok) throw new Error("Ошибка входа");
-    
+
             const data = await response.json();
             localStorage.setItem("access_token", data.access_token);
-    
-            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
-                headers: { Authorization: `Bearer ${data.access_token}` },
+
+            const userEndpoint = authType === "customer" ? "/customer/me" : "/company/me";
+
+            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${userEndpoint}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${data.access_token}`,
+                },
+                body: JSON.stringify({}),
             });
-    
+
             if (!userResponse.ok) throw new Error("Ошибка получения данных пользователя");
-    
+
             const user = await userResponse.json();
             const userData = { ...user, authType };
-    
+
             localStorage.setItem("user", JSON.stringify(userData));
             setUserData(userData);
-    
+
             const path = authType === "customer" ? "/customer-profile" : "/company-profile";
             router.push(path);
-    
+
+            onClose();
         } catch (err) {
             setError("Неправильный логин или пароль");
         }
     };
-    
 
     return (
         <div className={styles.loginForm}>

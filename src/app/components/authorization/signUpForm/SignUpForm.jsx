@@ -34,16 +34,19 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
     const triggerFileUpload = () => {
         document.getElementById('imageUploadInput').click();
     };
+
     const handleRegister = async () => {
         const { login, password, email, phone, website } = formData;
-    
+
         if (!login || !password || !email || (authType === "company" && (!phone || !website))) {
             console.error("Пожалуйста, заполните все обязательные поля.");
             return;
         }
-    
-        const endpoint = authType === "customer" ? `${process.env.NEXT_PUBLIC_API_URL}/auth/register/customer` : `${process.env.NEXT_PUBLIC_API_URL}/auth/register/company`;
-        
+
+        const endpoint = authType === "customer" 
+            ? `${process.env.NEXT_PUBLIC_API_URL}/auth/register/customer` 
+            : `${process.env.NEXT_PUBLIC_API_URL}/auth/register/company`;
+
         try {
             console.log("Sending request to:", endpoint);
             const response = await fetch(endpoint, {
@@ -51,41 +54,43 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("Server error response:", errorData);
                 throw new Error(errorData.message || "Ошибка регистрации");
             }
-    
+
             const data = await response.json();
             console.log("Registration successful:", data);
             const token = data.access_token;
-    
+
             localStorage.setItem("access_token", token);
             localStorage.removeItem("user");
-    
-            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
+
+            const userEndpoint = authType === "customer" ? "/customer/me" : "/company/me";
+
+            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${userEndpoint}`, {
+                method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
+                body: JSON.stringify({}),
             });
-    
+
             if (!userResponse.ok) throw new Error("Ошибка получения данных пользователя");
-    
+
             const newUserData = await userResponse.json();
             localStorage.setItem("user", JSON.stringify(newUserData)); 
-    
+
             const redirectPath = authType === "customer" ? "/customer-profile" : "/company-profile";
             router.push(redirectPath);
-    
+
         } catch (err) {
             console.error("Registration Error:", err.message);
         }
     };
-    
-    
-    
 
     return (
         <div className={styles.registrationForm}>

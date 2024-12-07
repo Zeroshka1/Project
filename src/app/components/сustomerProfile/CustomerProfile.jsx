@@ -14,8 +14,13 @@ const CustomerProfile = () => {
                 const token = localStorage.getItem("access_token");
                 if (!token) throw new Error("Токен отсутствует");
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
-                    headers: { Authorization: `Bearer ${token}` },
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer/me`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${data.access_token}`,
+                    },
+                    body: JSON.stringify({}),
                 });
 
                 if (!response.ok) throw new Error("Ошибка получения данных пользователя");
