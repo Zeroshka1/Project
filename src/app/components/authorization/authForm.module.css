@@ -12,8 +12,9 @@
     z-index: 1000;
 }
 
+
 /* Контейнер формы */
-.formContainer {
+.formContainer, .mainContainer {
     overflow-x: hidden;
     position: relative;
     display: flex;
@@ -26,13 +27,51 @@
     padding: 2em 6em;
     min-height: 200px;
     text-align: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.formContainer.entering {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.formContainer.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.formContainer.exiting {
+    opacity: 0;
+    transform: translateY(10px);
 }
 
 .formContainer div {
     display: flex;
     gap: 1em;
 }
+/*  */
+.mainContainer {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+.mainContainer.entering {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.mainContainer.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mainContainer.exiting {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.buttonGroup{
+    display: flex;
+    gap: 1em;
+}
 /* стиль для формы входа */
 .loginForm {
     display: flex;
@@ -150,16 +189,16 @@
 }
 
 @media (max-width: 1024px) {
-    .formContainer {
+    .formContainer, .mainContainer {
         padding: 2em 4em;
     }
 
-    .formContainer h1 {
+    .formContainer h1, .mainContainer h1 {
         padding-top: 2em;
         font-size: 1.5em;
     }
 
-    .formContainer div button {
+    .formContainer div button, .mainContainer div button{
         font-size: .82em;
     }
 
@@ -173,12 +212,13 @@
 }
 
 @media (max-width: 475px) {
-    .formContainer h1 {
+    .formContainer h1,.mainContainer h1 {
         padding-top: 2em;
         font-size: 1.2em;
     }
 
-    .formContainer{
+    .formContainer,.mainContainer{
+        padding: 2em;
         overflow-y: scroll;
     }
     .registrationForm{
@@ -190,7 +230,7 @@
         padding: .5em;
     }
 
-    .formContainer div button {
+    .formContainer div button, .mainContainer div button {
         font-size: .8em;
     }
 }
