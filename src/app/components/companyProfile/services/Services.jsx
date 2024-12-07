@@ -8,7 +8,7 @@ function Services({ setSelectedServices }) {
 
     const fetchServices = async () => {
         try {
-            const response = await fetch('http://80.68.156.221:8001/services/all');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/all`);
             const data = await response.json();
             setServices(data);
 

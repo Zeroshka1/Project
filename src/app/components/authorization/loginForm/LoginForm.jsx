@@ -14,14 +14,13 @@ const LoginForm = ({ authType, onSwitchToRegister, setUserData }) => {
     };
 
     const handleLogin = async () => {
-        // Проверка на пустые поля
         if (!loginData.login || !loginData.password) {
             setError("Пожалуйста, заполните все поля.");
             return;
         }
     
         try {
-            const response = await fetch("http://80.68.156.221:8001/auth/login", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

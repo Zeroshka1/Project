@@ -43,7 +43,7 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
             return;
         }
     
-        const endpoint = authType === "customer" ? "http://80.68.156.221:8001/auth/register/customer" : "http://80.68.156.221:8001/auth/register/company";
+        const endpoint = authType === "customer" ? `${process.env.NEXT_PUBLIC_API_URL}/auth/register/customer` : `${process.env.NEXT_PUBLIC_API_URL}/auth/register/company`;
         
         try {
             console.log("Sending request to:", endpoint);
@@ -66,7 +66,7 @@ const SignUpForm = ({ authType, onSwitchToLogin }) => {
             localStorage.setItem("access_token", token);
             localStorage.removeItem("user");
     
-            const userResponse = await fetch("http://80.68.156.221:8001/auth/user/me", {
+            const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

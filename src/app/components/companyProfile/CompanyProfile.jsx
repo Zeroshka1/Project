@@ -20,22 +20,21 @@ const CompanyProfile = () => {
                 const token = localStorage.getItem("access_token");
                 if (!token) throw new Error("Токен отсутствует");
 
-                const response = await fetch("http://80.68.156.221:8001/auth/user/me", {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const user = await response.json();
                 setCompanyData(user);
 
-                const responseC = await fetch("http://80.68.156.221:8001/company/info", {
+                const responseC = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/info`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const companyInfo = await responseC.json();
-                setCompanyInfo(companyInfo); // Сохраняем информацию о компании
+                setCompanyInfo(companyInfo);
 
                 if (!response.ok || !responseC.ok) throw new Error("Ошибка получения данных пользователя или компании");
 
-                // Получаем текущие услуги компании
-                const responseServices = await fetch(`http://80.68.156.221:8001/company/${companyInfo.id}/services`, {
+                const responseServices = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/${companyInfo.id}/services`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const services = await responseServices.json();
@@ -50,7 +49,6 @@ const CompanyProfile = () => {
         fetchUserData();
     }, []);
 
-    // Обработчики для переключения между окнами
     const selectServices = () => {
         setIsOrderWindow(false);
     };
@@ -59,7 +57,6 @@ const CompanyProfile = () => {
         setIsOrderWindow(true);
     };
 
-    // Функция для отправки данных выбранных услуг на сервер
     const handleApply = async () => {
         if (!companyInfo || !companyInfo.id) {
             console.error('company_id не найден');
@@ -75,25 +72,23 @@ const CompanyProfile = () => {
             const token = localStorage.getItem("access_token");
             if (!token) throw new Error("Токен отсутствует");
 
-            const company_id = companyInfo.id; // Используем company_id из данных компании
+            const company_id = companyInfo.id;
 
-            const createServiceUrl = "http://80.68.156.221:8001/company/service/create";
-            const updateServiceUrl = `http://80.68.156.221:8001/company/services?company_id=${company_id}`;
+            const createServiceUrl = `${process.env.NEXT_PUBLIC_API_URL}/company/service/create`;
+            const updateServiceUrl = `${process.env.NEXT_PUBLIC_API_URL}/company/services?company_id=${company_id}`;
 
             for (const service of selectedServices) {
                 const serviceData = {
-                    company_id,   // Здесь company_id это просто id компании
+                    company_id,
                     service_id: service.service_id,
                     price_min: service.price_min,
                     price_max: service.price_max,
                     description: service.description || "Без описания"
                 };
 
-                // Проверяем, существует ли услуга с таким service_id
                 const existingService = existingServices.find(existing => existing.services_id === service.service_id);
 
                 if (existingService) {
-                    // Если услуга существует, обновляем ее (PUT)
                     const updatedServiceData = {
                         service_id: service.service_id,
                         price_min: service.price_min,
@@ -118,7 +113,6 @@ const CompanyProfile = () => {
 
                     console.log(`Услуга ${service.service_id} успешно обновлена: ${textResponse}`);
                 } else {
-                    // Если услуги нет, добавляем новую (POST)
                     const response = await fetch(createServiceUrl, {
                         method: 'POST',
                         headers: {
