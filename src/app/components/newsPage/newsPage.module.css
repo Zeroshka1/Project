@@ -23,6 +23,16 @@
     gap: 1em;   
     
 }
+.title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.photo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 .newsBlockWrapper{
     display: flex;
     flex-direction: column;
