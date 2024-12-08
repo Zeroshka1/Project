@@ -4,34 +4,34 @@ import Image from 'next/image';
 
 function Card({ data, onClose }) {
   const [isVisible, setIsVisible] = useState(true);
-
-  const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-        onClose(); 
-    }, 300); 
-};
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    if (isVisible) {
-      document.body.classList.add('hiddenScroll');
-      document.documentElement.classList.add('hiddenScroll');
-    } else {
-      document.body.classList.remove('hiddenScroll');
-      document.documentElement.classList.remove('hiddenScroll');
+    if (isExiting) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 300); 
+      return () => clearTimeout(timer);
     }
-    return () => {
-      document.body.classList.remove('hiddenScroll');
-      document.documentElement.classList.remove('hiddenScroll');
-    };
-  }, [isVisible]);
+  }, [isExiting, onClose]);
+
+  const handleClose = () => {
+    setIsExiting(true);
+  };
 
   return (
     <>
-      <div className={`${styles.blurBackground} ${!isVisible ? styles.hidden : ''}`} onClick={handleClose}></div>
-      <div className={`${styles.cardModal} ${isVisible ? styles.exiting : ''}`}>
+      <div
+        className={`${styles.blurBackground} ${isExiting ? styles.exiting : ''}`}
+        onClick={handleClose}
+      ></div>
+      <div
+        className={`${styles.cardModal} ${isExiting ? styles.exiting : ''}`}
+      >
         <div className={styles.formContainer}>
-          <button className={styles.closeButton} onClick={handleClose}>×</button>
+          <button className={styles.closeButton} onClick={handleClose}>
+            ×
+          </button>
 
           <div className={styles.cardContent}>
             <div className={styles.logoNameRating}>
@@ -49,24 +49,8 @@ function Card({ data, onClose }) {
                     />
                   </div>
                 )}
-                {/* Замените company_id на companyName */}
                 <p>{data.companyName}</p>
               </div>
-
-              {/* <div className={styles.ratingWrapper}>
-                            <span>Рейтинг</span>
-                            {showRating && (
-                                <div className={styles.ratingCompany}>
-                                    <span>{data.rating}</span>
-                                    <Image
-                                        src="https://img.icons8.com/?size=100&id=PuXqa9IZtu5P&format=png&color=000000"
-                                        alt="star"
-                                        width={32}
-                                        height={32}
-                                    />
-                                </div>
-                            )}
-                        </div> */}
             </div>
 
             <div className={styles.servicesPrice}>
@@ -85,7 +69,7 @@ function Card({ data, onClose }) {
               </div>
             </div>
 
-            <button className='blueBtn'>Связаться</button>
+            <button className="blueBtn">Связаться</button>
           </div>
         </div>
       </div>

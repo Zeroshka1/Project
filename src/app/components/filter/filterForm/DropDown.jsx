@@ -1,27 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styles from '../filter.module.css';
 
-const Dropdown = ({ title, options, selectedOptions, onChange, isOpen, toggleDropdown }) => {
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        if (isOpen) {
-          toggleDropdown();
-        }
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, toggleDropdown]);
-
+const DropDown = ({ title, options, selectedOptions = [], onChange, isOpen, toggleDropdown }) => {
   return (
-    <div className={styles.dropdown} ref={dropdownRef}>
+    <div className={styles.dropdown}>
       <div className={styles.dropdownToggle} onClick={toggleDropdown} tabIndex={0}>
         <span
           className={`${styles.text} ${selectedOptions.length > 0 ? styles.selected : ''}`}
@@ -31,8 +13,8 @@ const Dropdown = ({ title, options, selectedOptions, onChange, isOpen, toggleDro
         <span className={styles.dropdownArrow}>▼</span>
       </div>
       <ul className={`${styles.dropdownMenu} ${isOpen ? styles.open : ''}`}>
-        {options.map((option) => (
-          <li key={option}>
+        {options.map((option, index) => (
+          <li key={index}>
             <label className={styles.checkboxLabel}>
               <input
                 type="checkbox"
@@ -51,4 +33,4 @@ const Dropdown = ({ title, options, selectedOptions, onChange, isOpen, toggleDro
   );
 };
 
-export default Dropdown;
+export default DropDown;

@@ -2,18 +2,34 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from '../filter.module.css';
 import DropDown from './DropDown';
 
-function FilterForm({ onApplyFilters, onClose }) {
+function FilterForm({ onClose }) {
     const [price, setPrice] = useState('');
-    const [selectedServices, setSelectedServices] = useState([]);
-    const [selectedCompanies, setSelectedCompanies] = useState([]);
-    const [selectedRatings, setSelectedRatings] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
     const [isExiting, setIsExiting] = useState(false);
 
-    const filterModalRef = useRef(null);
-    const services = ["A", "B", "C", "D"];
-    const companies = ["A", "B", "C"];
+    const [services, setServices] = useState([]);
+    const [companies, setCompanies] = useState([]);
     const ratings = [1, 2, 3, 4, 5];
+
+    const filterModalRef = useRef(null);
+
+    const fetchServicesAndCompanies = async () => {
+        try {
+            const servicesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services/all`);
+            const servicesData = await servicesResponse.json();
+            setServices(servicesData);
+
+            const companiesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/all`);
+            const companiesData = await companiesResponse.json();
+            setCompanies(companiesData);
+        } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchServicesAndCompanies();
+    }, []);
 
     useEffect(() => {
         if (!isExiting) {
@@ -32,21 +48,16 @@ function FilterForm({ onApplyFilters, onClose }) {
     const handleClose = () => {
         setIsExiting(true);
         setTimeout(() => {
-            onClose(); 
-        }, 300); 
+            onClose();
+        }, 300);
     };
 
     const handlePriceChange = (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         setPrice(value);
     };
-    const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
-    const handleApply = () => {
-        const filters = { price, selectedServices, selectedCompanies, selectedRatings };
-        onApplyFilters(filters);
-        handleClose();
-    };
+    const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
 
     return (
         <>
@@ -69,33 +80,19 @@ function FilterForm({ onApplyFilters, onClose }) {
                             value={formattedPrice}
                             onChange={handlePriceChange}
                         />
+
                         <DropDown
                             title="Услуги"
-                            options={services}
-                            selectedOptions={selectedServices}
-                            onChange={(service) => {
-                                setSelectedServices((prev) =>
-                                    prev.includes(service)
-                                        ? prev.filter((item) => item !== service)
-                                        : [...prev, service]
-                                );
-                            }}
+                            options={services.map(service => service.service_name)}
                             isOpen={openDropdown === 'services'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'services' ? null : 'services')
                             }
                         />
+
                         <DropDown
                             title="Компании"
-                            options={companies}
-                            selectedOptions={selectedCompanies}
-                            onChange={(company) => {
-                                setSelectedCompanies((prev) =>
-                                    prev.includes(company)
-                                        ? prev.filter((item) => item !== company)
-                                        : [...prev, company]
-                                );
-                            }}
+                            options={companies.map(company => company.login)}
                             isOpen={openDropdown === 'companies'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'companies' ? null : 'companies')
@@ -106,21 +103,13 @@ function FilterForm({ onApplyFilters, onClose }) {
                         <DropDown
                             title="Оценки"
                             options={ratings}
-                            selectedOptions={selectedRatings}
-                            onChange={(rating) => {
-                                setSelectedRatings((prev) =>
-                                    prev.includes(rating)
-                                        ? prev.filter((item) => item !== rating)
-                                        : [...prev, rating]
-                                );
-                            }}
                             isOpen={openDropdown === 'ratings'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'ratings' ? null : 'ratings')
                             }
                         />
-                        <button className="blueBtn" onClick={handleApply}>
-                            Показать
+                        <button className="blueBtn" onClick={handleClose}>
+                            Закрыть
                         </button>
                     </div>
                 </div>

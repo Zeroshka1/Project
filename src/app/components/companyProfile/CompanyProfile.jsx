@@ -7,26 +7,20 @@ import Services from './services/Services';
 
 const CompanyProfile = () => {
     const [companyData, setCompanyData] = useState(null);
-    const [companyInfo, setCompanyInfo] = useState(null); // Новое состояние для данных компании
+    const [companyInfo, setCompanyInfo] = useState(null);
     const [isOrderWindow, setIsOrderWindow] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [selectedServices, setSelectedServices] = useState([]); // Хранение выбранных услуг
-    const [existingServices, setExistingServices] = useState([]); // Хранение существующих услуг компании
+    const [selectedServices, setSelectedServices] = useState([]); 
+    const [existingServices, setExistingServices] = useState([]);
 
-    // Получаем данные пользователя и компании
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem("access_token");
                 if (!token) throw new Error("Токен отсутствует");
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/me`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${data.access_token}`,
-                    },
-                    body: JSON.stringify({}),
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/user/me`, {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 const user = await response.json();
                 setCompanyData(user);
@@ -44,6 +38,7 @@ const CompanyProfile = () => {
                 });
                 const services = await responseServices.json();
                 setExistingServices(services);
+                
 
             } catch (err) {
                 console.error(err.message);
@@ -191,7 +186,7 @@ const CompanyProfile = () => {
                     </div>
                 )}
                 <p className={styles.nameCompany}>{companyData.login}</p>
-                <div className={styles.ratingCompany}>
+                {/* <div className={styles.ratingCompany}>
                     <span>{companyData.rating}</span>
                     <Image
                         src="https://img.icons8.com/?size=100&id=PuXqa9IZtu5P&format=png&color=000000"
@@ -199,7 +194,7 @@ const CompanyProfile = () => {
                         width={32}
                         height={32}
                     />
-                </div>
+                </div> */}
                 <p className={styles.emailCompany}>{companyData.email}</p>
             </div>
 

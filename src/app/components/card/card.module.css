@@ -12,48 +12,7 @@
     z-index: 1000;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-.filterModal {
-    animation: fadeIn 0.3s ease-out;
-}
-
-.filterModal.exiting {
-    animation: fadeOut 0.3s ease-out;
-}
-
-.blurBackground {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 998;
-    opacity: 1;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.blurBackground.exiting {
-    animation: fadeOut 0.3s ease-out;
-}
 
 .formContainer {
     position: relative;
@@ -86,12 +45,13 @@
     color: #0D19FF;
 }
 
-.cardContent{
+.cardContent {
     display: flex;
     flex-direction: column;
     gap: 2em;
     width: 340px;
 }
+
 /*  */
 .logoAndName {
     width: 100%;
@@ -142,12 +102,14 @@
     flex-direction: column;
     gap: .7em;
 }
+
 .priceWrapper span {
     font-weight: 600;
     font-size: .75em;
     color: #636363;
 }
-.priceCompany p{
+
+.priceCompany p {
     color: #000000;
     font-size: 1em;
 }
@@ -166,17 +128,65 @@
     justify-content: center;
 }
 
-.servicesPrice,.logoNameRating{
+.servicesPrice,
+.logoNameRating {
     width: 100%;
     display: flex;
     gap: 1em;
     align-items: center;
 }
-.servicesPrice{
+
+.servicesPrice {
     justify-content: start;
 }
-@media (max-width: 1024px){
-    .formContainer{
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.cardModal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.cardModal.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+.blurBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 998;
+    opacity: 1;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.blurBackground.exiting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@media (max-width: 1024px) {
+    .formContainer {
         padding: 2em 1em;
     }
 }

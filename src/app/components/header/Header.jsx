@@ -45,11 +45,15 @@ const Header = () => {
   };
 
   const handleAccountClick = () => {
+    console.log(userData);
     if (userData?.authType === 'customer') {
       window.location.href = "/customer-profile";
     } else if (userData?.authType === 'company') {
       window.location.href = "/company-profile";
     }
+    else {
+    console.error("Ошибка: данные пользователя не найдены или authType отсутствует.");
+  }
   };
 
   const handleAccountClickExit = () => {
@@ -97,7 +101,7 @@ const Header = () => {
           setUserData={(user) => {
             setUserData(user);
             localStorage.setItem("user", JSON.stringify(user));
-            setIsAuthModalOpen(false); // Закрыть форму после входа
+            setIsAuthModalOpen(false);
           }}
         />
       )}
