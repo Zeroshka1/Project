@@ -7,6 +7,7 @@ function FilterForm({ onClose }) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [selectedServices, setSelectedServices] = useState([]);
     const [selectedCompanies, setSelectedCompanies] = useState([]);
+    const [selectedRatings, setSelectedRatings] = useState([]);
     const [isExiting, setIsExiting] = useState(false);
 
     const [services, setServices] = useState([]);
@@ -50,6 +51,7 @@ function FilterForm({ onClose }) {
         };
     }, [isExiting]);
 
+    // Обработчик кликов вне всех дропменю
     useEffect(() => {
         const handleClickOutside = (event) => {
             // Проверяем, был ли клик вне всех дропменю
@@ -94,6 +96,14 @@ function FilterForm({ onClose }) {
             prev.includes(company)
                 ? prev.filter((item) => item !== company)
                 : [...prev, company]
+        );
+    };
+
+    const handleRatingChange = (rating) => {
+        setSelectedRatings((prev) =>
+            prev.includes(rating)
+                ? prev.filter((item) => item !== rating)
+                : [...prev, rating]
         );
     };
 
@@ -144,12 +154,16 @@ function FilterForm({ onClose }) {
                                 setOpenDropdown(openDropdown === 'companies' ? null : 'companies')
                             }
                         />
+
+
                     </div>
                     <div className={styles.filterBtns}>
                         <DropDown
                             ref={dropdownRatingsRef} // Ссылка на рейтинги
                             title="Оценки"
                             options={ratings}
+                            selectedOptions={selectedRatings}
+                            onChange={handleRatingChange}
                             isOpen={openDropdown === 'ratings'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'ratings' ? null : 'ratings')
