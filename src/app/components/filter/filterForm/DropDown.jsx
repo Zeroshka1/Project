@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styles from '../filter.module.css';
 
-const DropDown = ({ title, options, selectedOptions = [], onChange, isOpen, toggleDropdown }) => {
+const DropDown = forwardRef(({ title, options, selectedOptions = [], onChange, isOpen, toggleDropdown }, ref) => {
   return (
-    <div className={styles.dropdown}>
+    <div ref={ref} className={styles.dropdown}>
       <div className={styles.dropdownToggle} onClick={toggleDropdown} tabIndex={0}>
         <span
           className={`${styles.text} ${selectedOptions.length > 0 ? styles.selected : ''}`}
@@ -31,6 +31,6 @@ const DropDown = ({ title, options, selectedOptions = [], onChange, isOpen, togg
       </ul>
     </div>
   );
-};
+});
 
 export default DropDown;

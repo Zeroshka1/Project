@@ -1,19 +1,19 @@
 'use client'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./filter.module.css";
 import Dropdown from "./filterForm/DropDown";
 
 function Filter({ onFilterChange, openMenu }) {
     const [selectedServices, setSelectedServices] = useState([]);
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [price, setPrice] = useState('');
     const [tempFilters, setTempFilters] = useState({
         price: null,
         selectedServices: []
     });
-
     const [services, setServices] = useState([]);
+
+    const dropdownRef = useRef(null); // Создаём ссылку на компонент Dropdown
 
     const fetchServices = async () => {
         try {
@@ -63,6 +63,21 @@ function Filter({ onFilterChange, openMenu }) {
         onFilterChange(tempFilters);
     };
 
+    // Обработчик кликов вне меню
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <>
             <div className={`${styles.filterContainer} container pc`}>
@@ -74,7 +89,8 @@ function Filter({ onFilterChange, openMenu }) {
                             value={formattedPrice}
                             onChange={handlePriceChange}
                         />
-                       <Dropdown
+                        <Dropdown
+                            ref={dropdownRef} // Привязываем ссылку к Dropdown
                             title="Услуги"
                             options={services.map(service => service.service_name)}
                             selectedOptions={selectedServices}

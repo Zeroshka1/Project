@@ -5,6 +5,8 @@ import DropDown from './DropDown';
 function FilterForm({ onClose }) {
     const [price, setPrice] = useState('');
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [selectedServices, setSelectedServices] = useState([]);
+    const [selectedCompanies, setSelectedCompanies] = useState([]);
     const [isExiting, setIsExiting] = useState(false);
 
     const [services, setServices] = useState([]);
@@ -12,6 +14,9 @@ function FilterForm({ onClose }) {
     const ratings = [1, 2, 3, 4, 5];
 
     const filterModalRef = useRef(null);
+    const dropdownServicesRef = useRef(null);  // Ссылка для услуг
+    const dropdownCompaniesRef = useRef(null);  // Ссылка для компаний
+    const dropdownRatingsRef = useRef(null);  // Ссылка для рейтингов
 
     const fetchServicesAndCompanies = async () => {
         try {
@@ -45,6 +50,25 @@ function FilterForm({ onClose }) {
         };
     }, [isExiting]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Проверяем, был ли клик вне всех дропменю
+            if (
+                (dropdownServicesRef.current && !dropdownServicesRef.current.contains(event.target)) &&
+                (dropdownCompaniesRef.current && !dropdownCompaniesRef.current.contains(event.target)) &&
+                (dropdownRatingsRef.current && !dropdownRatingsRef.current.contains(event.target))
+            ) {
+                setOpenDropdown(null);  // Закрываем все дропменю
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const handleClose = () => {
         setIsExiting(true);
         setTimeout(() => {
@@ -55,6 +79,22 @@ function FilterForm({ onClose }) {
     const handlePriceChange = (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         setPrice(value);
+    };
+
+    const handleServiceChange = (service) => {
+        setSelectedServices((prev) =>
+            prev.includes(service)
+                ? prev.filter((item) => item !== service)
+                : [...prev, service]
+        );
+    };
+
+    const handleCompanyChange = (company) => {
+        setSelectedCompanies((prev) =>
+            prev.includes(company)
+                ? prev.filter((item) => item !== company)
+                : [...prev, company]
+        );
     };
 
     const formattedPrice = price ? Number(price).toLocaleString('ru-RU') : '';
@@ -82,8 +122,11 @@ function FilterForm({ onClose }) {
                         />
 
                         <DropDown
+                            ref={dropdownServicesRef} // Ссылка на услуги
                             title="Услуги"
                             options={services.map(service => service.service_name)}
+                            selectedOptions={selectedServices}
+                            onChange={handleServiceChange}
                             isOpen={openDropdown === 'services'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'services' ? null : 'services')
@@ -91,8 +134,11 @@ function FilterForm({ onClose }) {
                         />
 
                         <DropDown
+                            ref={dropdownCompaniesRef} // Ссылка на компании
                             title="Компании"
                             options={companies.map(company => company.login)}
+                            selectedOptions={selectedCompanies}
+                            onChange={handleCompanyChange}
                             isOpen={openDropdown === 'companies'}
                             toggleDropdown={() =>
                                 setOpenDropdown(openDropdown === 'companies' ? null : 'companies')
@@ -101,6 +147,7 @@ function FilterForm({ onClose }) {
                     </div>
                     <div className={styles.filterBtns}>
                         <DropDown
+                            ref={dropdownRatingsRef} // Ссылка на рейтинги
                             title="Оценки"
                             options={ratings}
                             isOpen={openDropdown === 'ratings'}
