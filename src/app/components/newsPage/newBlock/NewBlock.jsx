@@ -52,6 +52,7 @@ function NewBlock({ data }) {
                     <p>{data.description}</p>
                 </div>
             </div>
+            <div className={styles.line}></div>
         </div>
     );
 }

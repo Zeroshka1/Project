@@ -25,7 +25,7 @@ function News() {
     return (
         <div className={styles.wrapperNewsBlock}>
             {news.length === 0 ? (
-                <div><Loader/></div>
+                <div className={styles.loaderWrapper}><Loader/></div>
             ) : (
                 news.map((newsItem) => (
                     <NewBlock key={newsItem.id} data={newsItem} />
