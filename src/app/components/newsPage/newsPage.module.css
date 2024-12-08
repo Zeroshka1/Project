@@ -33,6 +33,9 @@
     display: flex;
     justify-content: center;
 }
+.photo img{
+    border-radius: 10px;
+}
 .newsBlockWrapper{
     display: flex;
     flex-direction: column;
