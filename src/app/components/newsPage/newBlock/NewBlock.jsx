@@ -7,21 +7,26 @@ function NewBlock({ data }) {
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
-        if (data.photo) {
+        if (data.image) {
+            console.log('Image Data:', data.image);
             const fetchImage = async () => {
                 try {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news/image/${data.photo}`);
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news/image/${data.image}`);
                     if (!response.ok) throw new Error('Не удалось загрузить изображение');
+                    
                     const imagePath = await response.json();
-                    setImageUrl(imagePath.url);
+                    console.log(imagePath);
+                    setImageUrl(imagePath);
+    
                 } catch (error) {
                     console.error('Ошибка при загрузке изображения:', error);
                 }
             };
-
+    
             fetchImage();
         }
-    }, [data.photo]);
+    }, [data.image]);
+    
 
     return (
         <div className={styles.newsBlockWrapper}>
@@ -32,9 +37,9 @@ function NewBlock({ data }) {
 
                 <div className={styles.photo}>
                     {imageUrl ? (
-                        <Image src={imageUrl} alt="newsPhoto" width={200} height={200} />
+                        <Image src={`https://decadenz.site/news/image/${imageUrl}`} alt="newsPhoto" width={200} height={200} />
                     ) : (
-                        <div>No Image</div>
+                        <div></div>
                     )}
                 </div>
 

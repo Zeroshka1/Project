@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import NewBlock from '../newBlock/NewBlock';
 import Loader from '../../loader/Loader';
+import styles from '../newsPage.module.css'
 
 function News() {
     const [news, setNews] = useState([]);
@@ -22,7 +23,7 @@ function News() {
     }, []);
 
     return (
-        <div>
+        <div className={styles.wrapperNewsBlock}>
             {news.length === 0 ? (
                 <div><Loader/></div>
             ) : (

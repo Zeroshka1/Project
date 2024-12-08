@@ -14,3 +14,14 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+.wrapperNewsBlock{
+    padding: 2em;
+}
+.newsInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;   
+}
+.newsBlockWrapper{
+    margin-top: 1em;
+}
