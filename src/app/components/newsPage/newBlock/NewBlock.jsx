@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import styles from './NewBlock.module.css'; 
+import styles from '../newsPage.module.css'; 
 
 function NewBlock({ data }) {
     const [imageUrl, setImageUrl] = useState(null);

@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import NewBlock from '../newBlock/NewBlock';
+import Loader from '../../loader/Loader';
 
 function News() {
     const [news, setNews] = useState([]);
@@ -23,7 +24,7 @@ function News() {
     return (
         <div>
             {news.length === 0 ? (
-                <p>Загружается...</p>
+                <div><Loader/></div>
             ) : (
                 news.map((newsItem) => (
                     <NewBlock key={newsItem.id} data={newsItem} />
